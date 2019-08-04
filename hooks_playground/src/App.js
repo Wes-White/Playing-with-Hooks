@@ -1,23 +1,40 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 
-function Box(props) {
-  //this is the child rendered by parent
-  return (
-    <div className="App">
-      <h1>React Hooks Playground</h1>
-      <p>{props.text}</p>
-    </div>
-  );
+class Button extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activated: false
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange() {
+    this.setState(prevState => {
+      return {
+        activated: !prevState.activated
+      };
+    });
+  }
+  render() {
+    const buttonText = this.state.activated
+      ? this.props.activeText
+      : this.props.inactiveText;
+    return (
+      <div className="button">
+        <button onClick={this.handleChange}>{buttonText}</button>
+      </div>
+    );
+  }
 }
-
-function App() {
-  //this is the parent
-  return (
-    <div>
-      <Box text="Hi, Wesley from app props." />;
-    </div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Button activeText="ON" inactiveText="OFF" />
+      </div>
+    );
+  }
 }
 
 export default App;
